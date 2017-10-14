@@ -2,7 +2,6 @@
  * Represents a deck of cards.
  *
  * @author jzhang879
- * test
  */
 import java.util.ArrayList;
 
@@ -64,16 +63,14 @@ public class Deck {
     }
 
     public void addTopCard(String card) {
-        String[] parts = card.split(" ");
-        Suit suit = Suit.valueOf(parts[2].toUpperCase());
-        String name = parts[0].substring(0, 1).toUpperCase() + parts[0].substring(1);
-        int value = Card.getValue(name, aceHigh);
-        deck.add(0, new Card(suit, name, value));
+        deck.add(0, new Card(card, aceHigh));
     }
 
     public Card removeTopCard(){return new Card(Suit.SPADES, "King", 13);}
 
-    public void addCard(String card, int num){;}
+    public void addCard(String card, int index){
+        deck.add(index, new Card(card, aceHigh));
+    }
 
     public void removeCard(String card, int num){;}
 
@@ -85,7 +82,7 @@ public class Deck {
         System.out.println(deck.deck);
         deck.shuffle();
         System.out.println(deck.deck);
-        deck.addTopCard("King of Spades");
+        deck.addCard("King of Spades", 7);
         System.out.println(deck.deck);
     }
 }

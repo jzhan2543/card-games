@@ -9,11 +9,19 @@ public class Card {
         this.name = name;
         this.value = value;
     }
+
+    public Card(String card, boolean aceHigh) {
+        String[] parts = card.split(" ");
+        this.suit = Suit.valueOf(parts[2].toUpperCase());
+        this.name = parts[0].substring(0, 1).toUpperCase() + parts[0].substring(1);
+        this.value = convertValue(name, aceHigh);
+    }
+
     public String toString() {
         return this.name + " of " + this.suit;
     }
 
-    public static int getValue(String name, boolean aceHigh) {
+    public int convertValue(String name, boolean aceHigh) {
         if (name.equalsIgnoreCase("Ace")) {
             if (aceHigh) {
                 return 14;
