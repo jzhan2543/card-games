@@ -109,6 +109,17 @@ public class Deck {
     }
 
     /**
+     * Returns the card
+     * at the specified index.
+     *
+     * @param index the spot to get
+     * @return the card at the index
+     */
+    public Card getCard(int index) {
+        return deck.get(index);
+    }
+
+    /**
      * Removes the topmost instances of a certain card.
      *
      * @param card the card to be removed
