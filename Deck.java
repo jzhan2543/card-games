@@ -43,6 +43,15 @@ public class Deck {
     }
 
     /**
+     * Gets the deck.
+     *
+     * @return the deck
+     */
+    public ArrayList deck() {
+        return deck;
+    }
+
+    /**
      * Shuffles a deck of cards.
      */
     public void shuffle() {
@@ -93,6 +102,17 @@ public class Deck {
      */
     public void addCard(String card, int index){
         deck.add(index, new Card(card, aceHigh));
+    }
+
+    /**
+     * Adds the specified card to
+     * a specific card.
+     *
+     * @param card the card object to add.
+     * @param index the spot to place the card.
+     */
+    public void addCard(Card card, int index) {
+        deck.add(index, card);
     }
 
     /**

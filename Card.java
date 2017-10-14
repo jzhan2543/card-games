@@ -45,6 +45,18 @@ public class Card {
         }
     }
 
+    public Suit getSuit() {
+        return suit;
+    }
+
+    public Value getName() {
+        return name;
+    }
+
+    public int getValue() {
+        return value;
+    }
+
     /**
      * Changes the value of
      * a card to a new one.
