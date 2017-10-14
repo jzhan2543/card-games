@@ -282,35 +282,6 @@ public class War extends javax.swing.JFrame {
             }
         };
         java.awt.EventQueue.invokeLater(x);
-        Scanner scan = new Scanner(System.in);
-
-        //Creates and shuffles a new deck, seperates the deck evenly to two decks;
-        boolean acehigh = true;
-        Deck deck = new Deck(acehigh);
-        deck.shuffle();
-        //Deck userDeck = new Deck();
-        for (int i = 0; i < 26; i++) {
-            userDeck.addCard(deck.getCard(i),i);
-        }
-        //Deck computerDeck = new Deck();
-        for (int i = 26; i < 52; i++) {
-            computerDeck.addCard(deck.getCard(i),i - 26);
-        }
-
-        //Plays War as long as either Deck's size is not 0
-        while (userDeck.deck().size() != 0 && computerDeck.deck().size() != 0) {
-            playWar(userDeck, computerDeck);
-            // System.out.println("Continue? Y/N");
-            // String continues = scan.next();
-            // if (continues.equalsIgnoreCase("n")) {
-            //     break;
-            // }
-        }
-        if (computerDeck.deck().size() == 0) {
-            System.out.println("Game Over: You Win!");
-        } else {
-            System.out.println("Game Over: You Lose!");
-        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
