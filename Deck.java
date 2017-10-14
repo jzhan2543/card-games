@@ -43,15 +43,6 @@ public class Deck {
     }
 
     /**
-     * Gets the deck.
-     *
-     * @return the deck
-     */
-    public ArrayList deck() {
-        return deck;
-    }
-
-    /**
      * Gets the size of the deck.
      *
      * @return the size of the deck
