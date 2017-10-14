@@ -203,5 +203,5 @@ public class Deck {
         System.out.println(deck.deck);
         System.out.println(deck.removeCard(2));
         System.out.println(deck.deck);
-            }
+    }
 }

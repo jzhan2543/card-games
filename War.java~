@@ -13,7 +13,7 @@ import java.awt.Image;
 
 /**
  *
- * @author MadHackers
+ * @author tonyzhang
  */
 public class War extends javax.swing.JFrame {
 
@@ -28,24 +28,39 @@ public class War extends javax.swing.JFrame {
     public static Deck computerDeck = new Deck();
 
     public void playWar(Deck uDeck, Deck cDeck) {
-
         int count = 0;
-        //Removes the two Cards that are the top cards of the user's and computer's deck
-        Card u = uDeck.removeCard(0);
-        Card c = cDeck.removeCard(0);
-
+        //Create two new temporary decks to be assigned after War
+        Deck newUserDeck = new Deck();
+        Deck newComputerDeck = new Deck();
+        //Creates two Cards that are the top cards of the user's and computer's deck
+        Card u = uDeck.getCard(0);
+        Card c = cDeck.getCard(0);
         //If the user's top card is larger
         if (u.getValue() > c.getValue()) {
             jTextArea1.append("Your " + u.toString() + " is greater than " + c.toString() + "\n");
+            uDeck.removeCard(0);
+            cDeck.removeCard(0);
             uDeck.addCard(u);
             uDeck.addCard(c);
-
-            //If the computer's top card is larger
-        } else if (u.getValue() < c.getValue()) {
+            jTextArea1.append("Your Deck: " + uDeck.getSize() + "\n");
+            jTextArea1.append("Computer's Deck: " + cDeck.getSize() + "\n");
+            jTextArea1.append(uDeck.toString() + "\n");
+            jTextArea1.append(cDeck.toString() + "\n");
+        }
+        //If the computer's top card is larger
+        else if (u.getValue() < c.getValue()) {
             jTextArea1.append("The Computer's " + c.toString() + " is greater than " + u.toString() + "\n");
+            uDeck.removeCard(0);
+            cDeck.removeCard(0);
             cDeck.addCard(u);
             cDeck.addCard(c);
-        } else {
+            jTextArea1.append("Your Deck: " + uDeck.getSize() + "\n");
+            jTextArea1.append("Computer's Deck: " + cDeck.getSize() + "\n");
+            jTextArea1.append(uDeck.toString() + "\n");
+            jTextArea1.append(cDeck.toString() + "\n");
+        }
+        //If the user's and computer's top card have the same value
+        else {
             jTextArea1.append("The Cards are Equal!");
             while(u.getValue() == c.getValue()) {
                 count = count + 3;
@@ -72,22 +87,10 @@ public class War extends javax.swing.JFrame {
                     uDeck.addCard(uDeck.removeCard(0));
                     uDeck.addCard(cDeck.removeCard(0));
                 }
-            } else if (u.getValue() < c.getValue()) {
+            } else {
                 for (int i = 0; i < count; i++) {
                     cDeck.addCard(uDeck.removeCard(0));
                     cDeck.addCard(cDeck.removeCard(0));
-                }
-            } else {
-                if (uDeck.getSize() > cDeck.getSize()) {
-                    for (int i = 0; i < count; i++) {
-                        uDeck.addCard(uDeck.removeCard(0));
-                        uDeck.addCard(cDeck.removeCard(0));
-                    }
-                } else {
-                    for (int i = 0; i < count; i++) {
-                        cDeck.addCard(uDeck.removeCard(0));
-                        cDeck.addCard(cDeck.removeCard(0));
-                    }
                 }
             }
         }
@@ -95,10 +98,6 @@ public class War extends javax.swing.JFrame {
         cDeck.shuffle();
         userDeck = uDeck;
         computerDeck = cDeck;
-        jTextArea1.append("Your Deck: " + uDeck.getSize() + "\n");
-        jTextArea1.append("Computer's Deck: " + cDeck.getSize() + "\n");
-        jTextArea1.append(uDeck.toString() + "\n");
-        jTextArea1.append(cDeck.toString() + "\n");
     }
 
     /**
@@ -282,35 +281,6 @@ public class War extends javax.swing.JFrame {
             }
         };
         java.awt.EventQueue.invokeLater(x);
-        Scanner scan = new Scanner(System.in);
-
-        //Creates and shuffles a new deck, seperates the deck evenly to two decks;
-        boolean acehigh = true;
-        Deck deck = new Deck(acehigh);
-        deck.shuffle();
-        //Deck userDeck = new Deck();
-        for (int i = 0; i < 26; i++) {
-            userDeck.addCard(deck.getCard(i),i);
-        }
-        //Deck computerDeck = new Deck();
-        for (int i = 26; i < 52; i++) {
-            computerDeck.addCard(deck.getCard(i),i - 26);
-        }
-
-        //Plays War as long as either Deck's size is not 0
-        while (userDeck.deck().size() != 0 && computerDeck.deck().size() != 0) {
-            playWar(userDeck, computerDeck);
-            // System.out.println("Continue? Y/N");
-            // String continues = scan.next();
-            // if (continues.equalsIgnoreCase("n")) {
-            //     break;
-            // }
-        }
-        if (computerDeck.deck().size() == 0) {
-            System.out.println("Game Over: You Win!");
-        } else {
-            System.out.println("Game Over: You Lose!");
-        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
