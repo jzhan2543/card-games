@@ -38,4 +38,16 @@ public class Card {
             return Integer.parseInt(name);
         }
     }
+
+    public Suit getSuit() {
+        return suit;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getValue() {
+        return value;
+    }
 }

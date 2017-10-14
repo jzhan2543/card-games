@@ -66,7 +66,17 @@ public class Deck {
         deck.add(0, new Card(card, aceHigh));
     }
 
-    public Card removeTopCard(){return new Card(Suit.SPADES, "King", 13);}
+    public Card removeTopCard() {
+        if (deck.size() != 0) {
+            Card removedCard = deck.get(0);
+            deck.remove(0);
+            return removedCard;
+        }
+        else {
+            //throws exception - implement later
+            return new Card(Suit.SPADES, "King", 13);
+        }
+    }
 
     public void addCard(String card, int index){
         deck.add(index, new Card(card, aceHigh));
@@ -80,9 +90,11 @@ public class Deck {
     public static void main(String[] args) {
         Deck deck = new Deck(true);
         System.out.println(deck.deck);
-        deck.shuffle();
-        System.out.println(deck.deck);
+        //deck.shuffle();
+        //System.out.println(deck.deck);
         deck.addCard("King of Spades", 7);
+        System.out.println(deck.deck);
+        deck.removeTopCard();
         System.out.println(deck.deck);
     }
 }
