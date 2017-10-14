@@ -1,8 +1,9 @@
 /**
  * Represents a deck of cards.
  *
- * @author jzhang879
+ * @author MadHackers
  */
+
 import java.util.ArrayList;
 
 public class Deck {
@@ -62,10 +63,21 @@ public class Deck {
         deck = newDeck;
     }
 
+    /**
+     * Adds a card to the top of the deck.
+     *
+     * @param card the card to add
+     * in the format "King of Spades"/"7 of Hearts".
+     */
     public void addTopCard(String card) {
         deck.add(0, new Card(card, aceHigh));
     }
 
+    /**
+     * Removes the top card of the deck.
+     *
+     * @return the card removed.
+     */
     public Card removeTopCard() {
         if (deck.size() != 0) {
             Card removedCard = deck.get(0);
@@ -78,23 +90,55 @@ public class Deck {
         }
     }
 
+    /**
+     * Adds a card to the deck at
+     * a specific spot.
+     *
+     * @param card the card to add
+     * in the format "King of Spades"/"7 of Hearts".
+     * @param index the spot to place the card.
+     */
     public void addCard(String card, int index){
         deck.add(index, new Card(card, aceHigh));
     }
 
-    public void removeCard(String card, int num){;}
+    /**
+     * Removes a certain number of a certain card.
+     *
+     * @param card the card to be removed
+     * in the format "King of Spades"/"7 of Hearts".
+     * @param num the number of instances to remove.
+     */
+    public void removeCard(String card, int num){
+        for (int i = 0; i < num; i++) {
+            deck.remove(new Card(card, aceHigh));
+        }
+    }
 
-    public Card pullRandomCard(){return new Card(Suit.SPADES, "King", 13);}
-
+    /**
+     * Pulls a random card from the deck.
+     *
+     * @return the card pulled.
+     */
+    public Card pullRandomCard(){
+        int ranNum = (int)Math.floor(Math.random() * (deck.size() - 1));
+        Card card = deck.get(ranNum);
+        deck.remove(ranNum);
+        return card;
+    }
 
     public static void main(String[] args) {
         Deck deck = new Deck(true);
         System.out.println(deck.deck);
-        //deck.shuffle();
-        //System.out.println(deck.deck);
+        deck.shuffle();
+        System.out.println(deck.deck);
+        deck.addCard("King of Spades", 7);
+        deck.addCard("King of Spades", 7);
         deck.addCard("King of Spades", 7);
         System.out.println(deck.deck);
-        deck.removeTopCard();
+        deck.removeCard("King of Spades", 2);
         System.out.println(deck.deck);
-    }
+        System.out.println(deck.pullRandomCard());
+        System.out.println(deck.deck);
+            }
 }

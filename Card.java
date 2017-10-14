@@ -1,15 +1,40 @@
+/**
+ * Represents a poker card.
+ *
+ * @author MadHackers
+ */
+
 public class Card {
 
     private Suit suit;
     private String name;
     private int value;
 
+    /**
+     * Creates a card with a specific suit,
+     * name, and value.
+     *
+     * @param suit the suit of the card
+     * (Spades, Hearts, Diamonds, Clubs)
+     * @param name the name of the card
+     * (King, 7, Ace, etc.)
+     * @param value the value of the card
+     * (1-14)
+     */
     public Card(Suit suit, String name, int value) {
         this.suit = suit;
         this.name = name;
         this.value = value;
     }
 
+    /**
+     * Creates a card based on the name
+     * and whether ace is high or low.
+     *
+     * @param card the name of the card
+     * in the format "King of Spades"/"7 of Hearts".
+     * @param aceHigh whether ace is high or low.
+     */
     public Card(String card, boolean aceHigh) {
         String[] parts = card.split(" ");
         this.suit = Suit.valueOf(parts[2].toUpperCase());
@@ -21,6 +46,32 @@ public class Card {
         return this.name + " of " + this.suit;
     }
 
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (other == null) {
+            return false;
+        }
+        if (!(other instanceof Card)) {
+            return false;
+        }
+        Card that = (Card)other;
+        if (this.name.equals(that.name) &&
+            this.suit == that.suit &&
+            this.value == that.value) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Finds the value of a card based
+     * on the name and whether ace is high or low.
+     *
+     * @param name the name of the card
+     * @param aceHigh whether ace is high or low
+     */
     public int convertValue(String name, boolean aceHigh) {
         if (name.equalsIgnoreCase("Ace")) {
             if (aceHigh) {
@@ -37,17 +88,5 @@ public class Card {
         } else {
             return Integer.parseInt(name);
         }
-    }
-
-    public Suit getSuit() {
-        return suit;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getValue() {
-        return value;
     }
 }
