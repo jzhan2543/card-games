@@ -52,6 +52,15 @@ public class Deck {
     }
 
     /**
+     * Gets the size of the deck.
+     *
+     * @return the size of the deck
+     */
+    public int getSize() {
+        return deck.size();
+    }
+
+    /**
      * Shuffles a deck of cards.
      */
     public void shuffle() {
@@ -106,13 +115,23 @@ public class Deck {
 
     /**
      * Adds the specified card to
-     * a specific card.
+     * a specific spot.
      *
      * @param card the card object to add.
      * @param index the spot to place the card.
      */
     public void addCard(Card card, int index) {
         deck.add(index, card);
+    }
+
+    /**
+     * Adds the specified card to
+     * the bottom of the deck.
+     *
+     * @param card the card object to add.
+     */
+    public void addCard(Card card) {
+        deck.add(card);
     }
 
     /**
@@ -162,6 +181,11 @@ public class Deck {
         Card card = deck.get(ranNum);
         deck.remove(ranNum);
         return card;
+    }
+
+    @Override
+    public String toString() {
+        return deck.toString();
     }
 
     public static void main(String[] args) {

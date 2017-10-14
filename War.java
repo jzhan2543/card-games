@@ -6,7 +6,7 @@
 import java.util.*;
 
 public class War {
-    public static Deck userDeck = new Deck(true);
+    public static Deck userDeck = new Deck();
     public static Deck computerDeck = new Deck();
 
     public static void main(String[] args) {
@@ -26,13 +26,13 @@ public class War {
         }
 
         //Plays War as long as either Deck's size is not 0
-        while (userDeck.deck().size() != 0 || computerDeck.deck().size() != 0) {
+        while (userDeck.deck().size() != 0 && computerDeck.deck().size() != 0) {
             playWar(userDeck, computerDeck);
-            System.out.println("Continue? Y/N");
-            String continues = scan.next();
-            if (continues.equalsIgnoreCase("n")) {
-                break;
-            }
+            // System.out.println("Continue? Y/N");
+            // String continues = scan.next();
+            // if (continues.equalsIgnoreCase("n")) {
+            //     break;
+            // }
         }
         if (computerDeck.deck().size() == 0) {
             System.out.println("Game Over: You Win!");
@@ -42,7 +42,7 @@ public class War {
     }
 
     public static void playWar(Deck uDeck, Deck cDeck) {
-        int count = 3;
+        int count = 0;
         //Create two new temporary decks to be assigned after War
         Deck newUserDeck = new Deck();
         Deck newComputerDeck = new Deck();
@@ -54,53 +54,62 @@ public class War {
             System.out.println("Your " + u.toString() + " is greater than " + c.toString());
             uDeck.removeCard(0);
             cDeck.removeCard(0);
-            uDeck.addCard(u,uDeck.deck().size()-1);
-            uDeck.addCard(c,uDeck.deck().size());
+            uDeck.addCard(u);
+            uDeck.addCard(c);
+            System.out.println("Your Deck: " + uDeck.getSize());
+            System.out.println("Computer's Deck: " + cDeck.getSize());
+            System.out.println(uDeck);
+            System.out.println(cDeck);
         }
         //If the computer's top card is larger
         else if (u.getValue() < c.getValue()) {
             System.out.println("The Computer's " + c.toString() + " is greater than " + u.toString());
             uDeck.removeCard(0);
             cDeck.removeCard(0);
-            cDeck.addCard(u,cDeck.deck().size()-1);
-            cDeck.addCard(c,cDeck.deck().size());
+            cDeck.addCard(u);
+            cDeck.addCard(c);
+            System.out.println("Your Deck: " + uDeck.getSize());
+            System.out.println("Computer's Deck: " + cDeck.getSize());
+            System.out.println(uDeck);
+            System.out.println(cDeck);
         }
         //If the user's and computer's top card have the same value
         else {
             System.out.println("The Cards are Equal!");
             while(u.getValue() == c.getValue()) {
                 count = count + 3;
-                if (uDeck.deck().size() >= count || cDeck.deck().size() >= count) {
+                if (uDeck.getSize() > count && cDeck.getSize() > count) {
                     u = uDeck.getCard(count);
                     c = cDeck.getCard(count);
                 }
                 //Occurs if either deck does not have the sufficient cards to "mill"
                 else {
-                    if (uDeck.deck().size() < count) {
-                        u = uDeck.getCard(uDeck.deck().size());
-                        c = cDeck.getCard(uDeck.deck().size());
-                    } else {
-                        u = uDeck.getCard(cDeck.deck().size());
-                        c = cDeck.getCard(cDeck.deck().size());
+                    if (uDeck.getSize() <= count) {
+                        u = uDeck.getCard(uDeck.getSize() - 1);
+                        c = cDeck.getCard(uDeck.getSize() - 1);
+                        count = uDeck.getSize();
+                    }
+                    if (cDeck.getSize() <= count) {
+                        u = uDeck.getCard(cDeck.getSize() - 1);
+                        c = cDeck.getCard(cDeck.getSize() - 1);
+                        count = cDeck.getSize();
                     }
                 }
             }
             if (u.getValue() > c.getValue()) {
-                for (int i = 0; i <= count; i++) {
-                    uDeck.removeCard(i);
-                    cDeck.removeCard(i);
-                    uDeck.addCard(u,uDeck.deck().size()-1);
-                    uDeck.addCard(c,uDeck.deck().size());
+                for (int i = 0; i < count; i++) {
+                    uDeck.addCard(uDeck.removeCard(0));
+                    uDeck.addCard(cDeck.removeCard(0));
                 }
             } else {
-                for (int i = 0; i <= count; i++) {
-                    uDeck.removeCard(i);
-                    cDeck.removeCard(i);
-                    cDeck.addCard(u,cDeck.deck().size()-1);
-                    cDeck.addCard(c,cDeck.deck().size());
+                for (int i = 0; i < count; i++) {
+                    cDeck.addCard(uDeck.removeCard(0));
+                    cDeck.addCard(cDeck.removeCard(0));
                 }
             }
         }
+        uDeck.shuffle();
+        cDeck.shuffle();
         userDeck = uDeck;
         computerDeck = cDeck;
     }
