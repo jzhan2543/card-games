@@ -7,7 +7,7 @@
 public class Card {
 
     private Suit suit;
-    private String name;
+    private Value name;
     private int value;
 
     /**
@@ -21,7 +21,7 @@ public class Card {
      * @param value the value of the card
      * (1-14)
      */
-    public Card(Suit suit, String name, int value) {
+    public Card(Suit suit, Value name, int value) {
         this.suit = suit;
         this.name = name;
         this.value = value;
@@ -32,20 +32,41 @@ public class Card {
      * and whether ace is high or low.
      *
      * @param card the name of the card
-     * in the format "King of Spades"/"7 of Hearts".
+     * in the format "King of Spades"/"Seven of Hearts".
      * @param aceHigh whether ace is high or low.
      */
     public Card(String card, boolean aceHigh) {
         String[] parts = card.split(" ");
-        this.suit = Suit.valueOf(parts[2].toUpperCase());
-        this.name = parts[0].substring(0, 1).toUpperCase() + parts[0].substring(1);
-        this.value = convertValue(name, aceHigh);
+        suit = Suit.valueOf(parts[2].toUpperCase());
+        name = Value.valueOf(parts[0].toUpperCase());
+        value = name.getValue();
+        if (name == Value.ACE && (!(aceHigh))) {
+            value = 1;
+        }
     }
 
+    /**
+     * Changes the value of
+     * a card to a new one.
+     *
+     * @param value the new value
+     */
+    public void setValue(int value) {
+        this.value = value;
+    }
+
+    @Override
     public String toString() {
-        return this.name + " of " + this.suit;
+        String temp = name.toString();
+        temp = temp.toLowerCase();
+        String output = temp.substring(0, 1).toUpperCase() + temp.substring(1) + " of ";
+        temp = suit.toString();
+        temp = temp.toLowerCase();
+        output += temp.substring(0, 1).toUpperCase() + temp.substring(1);
+            return output;
     }
 
+    @Override
     public boolean equals(Object other) {
         if (this == other) {
             return true;
@@ -63,30 +84,5 @@ public class Card {
             return true;
         }
         return false;
-    }
-
-    /**
-     * Finds the value of a card based
-     * on the name and whether ace is high or low.
-     *
-     * @param name the name of the card
-     * @param aceHigh whether ace is high or low
-     */
-    public int convertValue(String name, boolean aceHigh) {
-        if (name.equalsIgnoreCase("Ace")) {
-            if (aceHigh) {
-                return 14;
-            } else {
-                return 1;
-            }
-        } else if (name.equalsIgnoreCase("King")) {
-            return 13;
-        } else if (name.equalsIgnoreCase("Queen")) {
-            return 12;
-        } else if (name.equalsIgnoreCase("Jack")) {
-            return 11;
-        } else {
-            return Integer.parseInt(name);
-        }
     }
 }

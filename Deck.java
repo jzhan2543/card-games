@@ -26,23 +26,16 @@ public class Deck {
     public Deck(boolean aceHigh) {
         this.aceHigh = aceHigh;
         for (int i = 0; i < 4; i++) {
-            for (int j = 2; j < 15; j++) {
+            for (int j = 0; j < 13; j++) {
                 Suit[] suits = Suit.values();
                 Suit currentSuit = suits[i];
-                String name;
-                int value = j;
-                if (j == 11) {
-                    name = "Jack";
-                } else if (j == 12) {
-                    name = "Queen";
-                } else if (j == 13) {
-                    name = "King";
-                } else if (j == 14) {
-                    name = "Ace";
+                Value[] values = Value.values();
+                Value name = values[j];
+                int value = values[j].getValue();
+                if (j == 12) {
                     if (!(aceHigh)) {
-                        value = 1;                    }
-                } else {
-                    name = "" + j;
+                        value = 1;
+                    }
                 }
                 deck.add(new Card(currentSuit, name, value));
             }
@@ -56,7 +49,7 @@ public class Deck {
 
         ArrayList<Card> newDeck = new ArrayList<Card>();
         while (deck.size() > 0) {
-            int ranNum = (int)Math.floor(Math.random() * (deck.size() - 1));
+            int ranNum = (int)Math.floor(Math.random() * deck.size());
             newDeck.add(deck.get(ranNum));
             deck.remove(ranNum);
         }
@@ -67,7 +60,7 @@ public class Deck {
      * Adds a card to the top of the deck.
      *
      * @param card the card to add
-     * in the format "King of Spades"/"7 of Hearts".
+     * in the format "King of Spades"/"Seven of Hearts".
      */
     public void addTopCard(String card) {
         deck.add(0, new Card(card, aceHigh));
@@ -86,7 +79,7 @@ public class Deck {
         }
         else {
             //throws exception - implement later
-            return new Card(Suit.SPADES, "King", 13);
+            return new Card(Suit.SPADES, Value.KING, 13);
         }
     }
 
@@ -95,7 +88,7 @@ public class Deck {
      * a specific spot.
      *
      * @param card the card to add
-     * in the format "King of Spades"/"7 of Hearts".
+     * in the format "King of Spades"/"Seven of Hearts".
      * @param index the spot to place the card.
      */
     public void addCard(String card, int index){
@@ -103,13 +96,26 @@ public class Deck {
     }
 
     /**
-     * Removes a certain number of a certain card.
+     * Removes the card at the specified
+     * instance and returns it.
+     *
+     * @param index the spot to remove a card from
+     * @return the card removed
+     */
+    public Card removeCard(int index) {
+        Card temp = deck.get(index);
+        deck.remove(index);
+        return temp;
+    }
+
+    /**
+     * Removes the topmost instances of a certain card.
      *
      * @param card the card to be removed
-     * in the format "King of Spades"/"7 of Hearts".
+     * in the format "King of Spades"/"Seven of Hearts".
      * @param num the number of instances to remove.
      */
-    public void removeCard(String card, int num){
+    public void removeInstance(String card, int num){
         for (int i = 0; i < num; i++) {
             deck.remove(new Card(card, aceHigh));
         }
@@ -134,11 +140,13 @@ public class Deck {
         System.out.println(deck.deck);
         deck.addCard("King of Spades", 7);
         deck.addCard("King of Spades", 7);
-        deck.addCard("King of Spades", 7);
+        deck.addCard("Six of Clubs", 7);
         System.out.println(deck.deck);
-        deck.removeCard("King of Spades", 2);
+        deck.removeInstance("King of Spades", 2);
         System.out.println(deck.deck);
         System.out.println(deck.pullRandomCard());
+        System.out.println(deck.deck);
+        System.out.println(deck.removeCard(2));
         System.out.println(deck.deck);
             }
 }
