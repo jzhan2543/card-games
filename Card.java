@@ -12,4 +12,22 @@ public class Card {
     public String toString() {
         return this.name + " of " + this.suit;
     }
+
+    public static int getValue(String name, boolean aceHigh) {
+        if (name.equalsIgnoreCase("Ace")) {
+            if (aceHigh) {
+                return 14;
+            } else {
+                return 1;
+            }
+        } else if (name.equalsIgnoreCase("King")) {
+            return 13;
+        } else if (name.equalsIgnoreCase("Queen")) {
+            return 12;
+        } else if (name.equalsIgnoreCase("Jack")) {
+            return 11;
+        } else {
+            return Integer.parseInt(name);
+        }
+    }
 }
