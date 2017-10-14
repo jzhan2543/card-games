@@ -1,7 +1,7 @@
 /**
  * A Java Game of War
  *
- * @author jzhan30
+ * @author MadHackers
  */
 import java.util.*;
 
@@ -26,15 +26,16 @@ public class War {
         //Plays War as long as either Deck's size is not 0
         while (userDeck.deck.size() != 0 || computerDeck.deck.size() != 0) {
             playWar(userDeck, computerDeck);
-            System.out.println("Continue? y/n")
-            if (scan.nextChar().equals('n') || scan.nextChar().equals('N')) {
+            System.out.println("Continue? Y/N");
+            char continues = scan.nextChar();
+            if (continues.equalsIgnoreCase('n')) {
                 break;
             }
         }
-        if (userDeck.deck.size() == 0) {
-            System.out.println("Game Over: You Lose!");
+        if (computerDeck.deck.size() == 0) {
+            System.out.println("Game Over: You Win!");
         } else {
-            System.out.println()
+            System.out.println("Game Over: You Lose!");
         }
     }
 
@@ -64,6 +65,7 @@ public class War {
         }
         //If the user's and computer's top card have the same value
         else {
+            System.out.println("The Cards are Equal!");
             while(u.value == c.value) {
                 count = count + 3;
                 if (uDeck.deck.size() >= count || cDeck.deck.size() >= count) {
