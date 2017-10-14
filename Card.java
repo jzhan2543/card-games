@@ -9,4 +9,7 @@ public class Card {
         this.name = name;
         this.value = value;
     }
+    public String toString() {
+        return this.name + " of " + this.suit;
+    }
 }
