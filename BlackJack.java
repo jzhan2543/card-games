@@ -5,21 +5,24 @@ public class BlackJack {
         Scanner scan = new Scanner(System.in);
         boolean acehigh = true;
 
-        //Creates a new blackjack and assigns a value of 10 to face cards and a default value of 11 to Aces
-        Deck deck = new Deck(acehigh);
-        for (int i = 0; i < deck.getSize(); i++) {
-            if (deck.getCard(i).getValue() == 11 || deck.getCard(i).getValue() == 12
-                    || deck.getCard(i).getValue() == 13) {
-                deck.getCard(i).setValue(10);
-            }
-            if (deck.getCard(i).getValue() == 14) {
-                deck.getCard(i).setValue(11);
-            }
-        }
+
+
         //Play Blackjack
+        System.out.println();
         System.out.println("Welcome to the MadHackers Casino.");
         String plays;
         do {
+            //Creates a new blackjack and assigns a value of 10 to face cards and a default value of 11 to Aces
+            Deck deck = new Deck(acehigh);
+            for (int i = 0; i < deck.getSize(); i++) {
+                if (deck.getCard(i).getValue() == 11 || deck.getCard(i).getValue() == 12
+                        || deck.getCard(i).getValue() == 13) {
+                    deck.getCard(i).setValue(10);
+                }
+                if (deck.getCard(i).getValue() == 14) {
+                    deck.getCard(i).setValue(11);
+                }
+            }
             deck.shuffle();
             playBlackJack(deck);
             //play another round?
@@ -64,43 +67,45 @@ public class BlackJack {
         if (dealerValue != 21 && userValue != 21) {
 
             //asks if player would like to "hit" for another card
+            //obscure opening of 2 Aces, adjust one of the ace's value's
+            if (userShown.getValue() == 11 && userHidden.getValue() == 11) {
+                userShown.setValue(1);
+                userValue = 12;
+            }
             System.out.println("Your current value is "  + userValue);
             System.out.println("Would you like to hit? y/n");
             Scanner hit = new Scanner(System.in);
-            String userHit = "";
             int newUserValue = userValue;
             boolean yeshit = hit.next().equalsIgnoreCase("y");
 
+            int count = 0;
+            int counts = 0;
             //while the user enters "y"
             while (yeshit) {
-
                 //plays user blackjack
                 newUserValue = userBlackJack(userValue, deck);
                 //if after the hit the value of the hand is less than 21
                 if (newUserValue <= 21) {
                     System.out.println("Your new value is "  + newUserValue);
                     System.out.println("Would you like to hit? y/n");
-                    userHit = hit.next();
+                    yeshit = hit.next().equalsIgnoreCase("y");
                     userValue = newUserValue;
-
-                    //if user enters anything but "y" break the loop
-                    if (!userHit.equalsIgnoreCase("y")) {
-                        break;
-                    }
-                } else if (newUserValue > 21 && (userHasAceHidden)) {
+                } else if (newUserValue > 21 && userHasAceHidden && count < 2) {
                     userHidden.setValue(1);
                     newUserValue = newUserValue - 10;
                     System.out.println("Your new value is "  + newUserValue);
                     System.out.println("Would you like to hit? y/n");
-                    userHit = hit.next();
+                    yeshit = hit.next().equalsIgnoreCase("y");
                     userValue = newUserValue;
-                } else if ((newUserValue > 21) && userHasAceShown) {
+                    count++;
+                } else if ((newUserValue > 21) && userHasAceShown && counts < 2) {
                     userShown.setValue(1);
                     newUserValue = newUserValue - 10;
                     System.out.println("Your new value is "  + newUserValue);
                     System.out.println("Would you like to hit? y/n");
-                    userHit = hit.next();
+                    yeshit = hit.next().equalsIgnoreCase("y");
                     userValue = newUserValue;
+                    counts++;
                 }
                 //if after the hit the value of the hand is greater than 21
                 else {
@@ -122,16 +127,15 @@ public class BlackJack {
                     if (newComputerValue > 21 && (compHasAceHidden)) {
                         dealerHidden.setValue(1);
                         newComputerValue = newComputerValue - 10;
-                        System.out.println("The Computer's new value is "  + newUserValue);
                     }
-                    if ((newComputerValue > 21) && compHasAceShown) {
+
+                    if ((newComputerValue > 21) && (compHasAceShown)) {
                         dealerShown.setValue(1);
                         newComputerValue = newComputerValue - 10;
-                        System.out.println("The Computer's new value is "  + newComputerValue);
                     }
                 }
                 //prints out the final value of the computer's hand
-                System.out.println("The Computer's final value is " + newComputerValue);
+                System.out.println("The Computer's final value is: " + newComputerValue);
             }
 
             // if the computer value > 21
@@ -162,6 +166,7 @@ public class BlackJack {
             System.out.println("You have BlackJack!");
             System.out.println("You Win!");
         }
+        System.out.println(deck.toString());
     }
 
     //UserBlackJack
@@ -195,7 +200,10 @@ public class BlackJack {
             int cardValue = nextCard.getValue();
             newValue = value + cardValue;
         }
-        System.out.println("The Computer's new value: " + newValue);
         return newValue;
     }
+
+    // public static String probability() {
+
+    // }
 }
