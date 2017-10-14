@@ -26,7 +26,7 @@ public class War {
         }
 
         //Plays War as long as either Deck's size is not 0
-        while (userDeck.deck().size() != 0 && computerDeck.deck().size() != 0) {
+        while (userDeck.getSize() != 0 && computerDeck.getSize() != 0) {
             playWar(userDeck, computerDeck);
             // System.out.println("Continue? Y/N");
             // String continues = scan.next();
@@ -34,7 +34,7 @@ public class War {
             //     break;
             // }
         }
-        if (computerDeck.deck().size() == 0) {
+        if (computerDeck.getSize() == 0) {
             System.out.println("Game Over: You Win!");
         } else {
             System.out.println("Game Over: You Lose!");
