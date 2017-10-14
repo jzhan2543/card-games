@@ -1,8 +1,8 @@
 public class Card {
 
-    private static Suit suit;
-    private static String name;
-    private static int value;
+    private Suit suit;
+    private String name;
+    private int value;
 
     public Card(Suit suit, String name, int value) {
         this.suit = suit;
