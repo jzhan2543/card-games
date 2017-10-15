@@ -73,6 +73,7 @@ public class BlackJack {
                 userValue = 12;
             }
             System.out.println("Your current value is "  + userValue);
+            System.out.println(probability(userValue, dealerShown));
             System.out.println("Would you like to hit? y/n");
             Scanner hit = new Scanner(System.in);
             int newUserValue = userValue;
@@ -87,6 +88,7 @@ public class BlackJack {
                 //if after the hit the value of the hand is less than 21
                 if (newUserValue <= 21) {
                     System.out.println("Your new value is "  + newUserValue);
+                    System.out.println(probability(newUserValue, dealerShown));
                     System.out.println("Would you like to hit? y/n");
                     yeshit = hit.next().equalsIgnoreCase("y");
                     userValue = newUserValue;
@@ -94,6 +96,7 @@ public class BlackJack {
                     userHidden.setValue(1);
                     newUserValue = newUserValue - 10;
                     System.out.println("Your new value is "  + newUserValue);
+                    System.out.println(probability(newUserValue, dealerShown));
                     System.out.println("Would you like to hit? y/n");
                     yeshit = hit.next().equalsIgnoreCase("y");
                     userValue = newUserValue;
@@ -102,6 +105,7 @@ public class BlackJack {
                     userShown.setValue(1);
                     newUserValue = newUserValue - 10;
                     System.out.println("Your new value is "  + newUserValue);
+                    System.out.println(probability(newUserValue, dealerShown));
                     System.out.println("Would you like to hit? y/n");
                     yeshit = hit.next().equalsIgnoreCase("y");
                     userValue = newUserValue;
@@ -150,8 +154,10 @@ public class BlackJack {
                 System.out.println("You Win!");
             } else if (newUserValue > newComputerValue) {
                 System.out.println("You Win!");
-            } else if (newComputerValue >= newUserValue) {
+            } else if (newComputerValue > newUserValue) {
                 System.out.println("You Lose!");
+            } else if (newComputerValue == newUserValue) {
+                System.out.println("Push!");
             } else {
                 System.out.println("Error!");
             }
@@ -166,7 +172,6 @@ public class BlackJack {
             System.out.println("You have BlackJack!");
             System.out.println("You Win!");
         }
-        System.out.println(deck.toString());
     }
 
     //UserBlackJack
@@ -203,7 +208,76 @@ public class BlackJack {
         return newValue;
     }
 
-    // public static String probability() {
+    public static String probability(int value, Card dShown) {
+        String advice = "";
+        int valueIndex = indexPlayerValue(value);
+        int dealerValue = indexDealerValue(dShown.getName());
+        String adviceGrid [][] = {{"S","S","S","S","S","S","S","S","S","S"},
+                                  {"S","S","S","S","S","H","H","s","s","s"},
+                                  {"S","S","S","S","S","H","H","H","s","H"},
+                                  {"S","S","S","S","S","H","H","H","H","H"},
+                                  {"H","H","S","S","S","H","H","H","H","H"},
+                                  {"h","h","h","h","h","h","h","h","h","h"},
+                                  {"h","h","h","h","h","h","h","h","H","H"},
+                                  {"H","h","h","h","h","H","H","H","H","H"},
+                                  {"H","H","H","H","H","H","H","H","H","H"},};
+        if (adviceGrid[valueIndex][dealerValue].equalsIgnoreCase("S")) {
+            advice = "stand";
+        } else {
+            advice = "hit";
+        }
+        String bestAdvice = "Probability says you should: " + advice;
+        return bestAdvice;
+    }
 
-    // }
+    public static int indexPlayerValue(int value) {
+        int adviceIndex = 0;
+        if (value >= 17 && value <= 20 ) {
+            adviceIndex = 0;
+        } else if (value == 16) {
+            adviceIndex = 1;
+        } else if (value == 15) {
+            adviceIndex = 2;
+        } else if (value == 14 || value == 13) {
+            adviceIndex = 3;
+        } else if (value == 12) {
+            adviceIndex = 4;
+        } else if (value == 11) {
+            adviceIndex = 5;
+        } else if (value == 10) {
+            adviceIndex = 6;
+        } else if (value == 9) {
+            adviceIndex = 7;
+        } else {
+            adviceIndex = 8;
+        }
+        return adviceIndex;
+    }
+
+    public static int indexDealerValue(Value name) {
+        int adviceIndex = 0;
+        if (name.equals("Two")) {
+            adviceIndex = 0;
+        } else if (name.equals("Three")) {
+            adviceIndex = 1;
+        } else if (name.equals("Four")) {
+            adviceIndex = 2;
+        } else if (name.equals("Five")) {
+            adviceIndex = 3;
+        } else if (name.equals("Six")) {
+            adviceIndex = 4;
+        } else if (name.equals("Seven")) {
+            adviceIndex = 5;
+        } else if (name.equals("Eight")) {
+            adviceIndex = 6;
+        } else if (name.equals("Nine")) {
+            adviceIndex = 7;
+        } else if (name.equals("Ten") || name.equals("Jack") || name.equals("Queen") || name.equals("King")) {
+            adviceIndex = 8;
+        } else {
+            adviceIndex = 9;
+        }
+        return adviceIndex;
+    }
+
 }
