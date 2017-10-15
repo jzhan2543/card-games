@@ -60,8 +60,8 @@ public class BlackJack {
         //prints the visible cards
         System.out.println("The dealer's faceup is " + dealerShown.toString());
         //uncomment the next line when necessary
-        System.out.println("The dealer's facedown is " + dealerHidden.toString());
-        System.out.println("Your cards are " + userHidden.toString() + " and the " + userShown.toString());
+        // System.out.println("The dealer's facedown is " + dealerHidden.toString());
+        System.out.println("Your cards are the " + userHidden.toString() + " and the " + userShown.toString());
 
         //if neither player has BlackJack
         if (dealerValue != 21 && userValue != 21) {
@@ -92,7 +92,7 @@ public class BlackJack {
                     System.out.println("Would you like to hit? y/n");
                     yeshit = hit.next().equalsIgnoreCase("y");
                     userValue = newUserValue;
-                } else if (newUserValue > 21 && userHasAceHidden && count < 2) {
+                } else if (newUserValue > 21 && userHasAceHidden && (count < 1)) {
                     userHidden.setValue(1);
                     newUserValue = newUserValue - 10;
                     System.out.println("Your new value is "  + newUserValue);
@@ -101,7 +101,7 @@ public class BlackJack {
                     yeshit = hit.next().equalsIgnoreCase("y");
                     userValue = newUserValue;
                     count++;
-                } else if ((newUserValue > 21) && userHasAceShown && counts < 2) {
+                } else if ((newUserValue > 21) && userHasAceShown && (counts < 1)) {
                     userShown.setValue(1);
                     newUserValue = newUserValue - 10;
                     System.out.println("Your new value is "  + newUserValue);
@@ -232,7 +232,7 @@ public class BlackJack {
 
     public static int indexPlayerValue(int value) {
         int adviceIndex = 0;
-        if (value >= 17 && value <= 20 ) {
+        if (value >= 17 && value <= 21) {
             adviceIndex = 0;
         } else if (value == 16) {
             adviceIndex = 1;
