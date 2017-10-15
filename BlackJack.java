@@ -36,19 +36,24 @@ public class BlackJack {
     public static void playBlackJack(Deck deck) {
         boolean userHasAceHidden = false;
         boolean userHasAceShown = false;
+        boolean userHasAce = false;
         boolean compHasAceHidden = false;
         boolean compHasAceShown = false;
         boolean userBust = false;
         boolean dealerBust = false;
         Card userHidden = deck.removeTopCard();
-            if (userHidden.getValue() == 11)
+            if (userHidden.getValue() == 11) {
                 userHasAceHidden = true;
+                userHasAce = true;
+            }
         Card dealerHidden = deck.removeTopCard();
             if (dealerHidden.getValue() == 11)
                 compHasAceHidden = true;
         Card userShown = deck.removeTopCard();
-            if (userShown.getValue() == 11)
+            if (userShown.getValue() == 11) {
                 userHasAceShown = true;
+                userHasAce = true;
+            }
         Card dealerShown = deck.removeTopCard();
             if (dealerShown.getValue() == 11)
                 compHasAceShown = true;
@@ -72,8 +77,12 @@ public class BlackJack {
                 userShown.setValue(1);
                 userValue = 12;
             }
+            if (dealerShown.getValue() == 11 && dealerHidden.getValue() == 11) {
+                dealerShown.setValue(1);
+                dealerValue = 12;
+            }
             System.out.println("Your current value is "  + userValue);
-            System.out.println(probability(userValue, dealerShown));
+            System.out.println(probability(userValue, dealerShown, userHasAce));
             System.out.println("Would you like to hit? y/n");
             Scanner hit = new Scanner(System.in);
             int newUserValue = userValue;
@@ -208,10 +217,48 @@ public class BlackJack {
         return newValue;
     }
 
+    public static String probability(int value, Card dShown, Boolean ace) {
+        String advice = "";
+        boolean hasAce = ace;
+        int valueIndex = indexPlayerValue(value);
+        int valueAceIndex = indexPlayerAceValue(value);
+        int dealerValue = indexDealerValue(dShown.getValue());
+        String adviceGrid [][] = {{"S","S","S","S","S","S","S","S","S","S"},
+                                  {"S","S","S","S","S","H","H","s","s","s"},
+                                  {"S","S","S","S","S","H","H","H","s","H"},
+                                  {"S","S","S","S","S","H","H","H","H","H"},
+                                  {"H","H","S","S","S","H","H","H","H","H"},
+                                  {"h","h","h","h","h","h","h","h","h","h"},
+                                  {"h","h","h","h","h","h","h","h","H","H"},
+                                  {"H","h","h","h","h","H","H","H","H","H"},
+                                  {"H","H","H","H","H","H","H","H","H","H"},};
+        String adviceAceGrid[][] = {{"S","S","S","S","S","S","S","S","S","S"},
+                                    {"S","S","S","S","s","S","S","S","S","S"},
+                                    {"s","s","s","s","s","S","S","H","H","H"},
+                                    {"H","h","h","h","h","H","H","H","H","H"},
+                                    {"H","H","h","h","h","H","H","H","H","H"},
+                                    {"H","H","H","h","h","H","H","H","H","H"},};
+        if (!hasAce) {
+            if (adviceGrid[valueIndex][dealerValue].equalsIgnoreCase("S")) {
+                advice = "stand";
+            } else {
+                advice = "hit";
+            }
+        } else {
+            if (adviceAceGrid[valueAceIndex][dealerValue].equalsIgnoreCase("S")) {
+                advice = "stand";
+            } else {
+                advice = "hit";
+            }
+        }
+        String bestAdvice = "Probability says you should: " + advice;
+        return bestAdvice;
+    }
+
     public static String probability(int value, Card dShown) {
         String advice = "";
         int valueIndex = indexPlayerValue(value);
-        int dealerValue = indexDealerValue(dShown.getName());
+        int dealerValue = indexDealerValue(dShown.getValue());
         String adviceGrid [][] = {{"S","S","S","S","S","S","S","S","S","S"},
                                   {"S","S","S","S","S","H","H","s","s","s"},
                                   {"S","S","S","S","S","H","H","H","s","H"},
@@ -228,6 +275,24 @@ public class BlackJack {
         }
         String bestAdvice = "Probability says you should: " + advice;
         return bestAdvice;
+    }
+
+    public static int indexPlayerAceValue(int value) {
+        int adviceIndex = 0;
+        if (value >= 20 ) {
+            adviceIndex = 0;
+        } else if (value == 19 ) {
+            adviceIndex = 1;
+        } else if (value == 18 ) {
+            adviceIndex = 2;
+        } else if (value == 17 ) {
+            adviceIndex = 3;
+        } else if (value == 16 || value == 15) {
+            adviceIndex = 4;
+        } else {
+            adviceIndex = 5;
+        }
+        return adviceIndex;
     }
 
     public static int indexPlayerValue(int value) {
@@ -254,25 +319,25 @@ public class BlackJack {
         return adviceIndex;
     }
 
-    public static int indexDealerValue(Value name) {
+    public static int indexDealerValue(int name) {
         int adviceIndex = 0;
-        if (name.equals("Two")) {
+        if (name == 2) {
             adviceIndex = 0;
-        } else if (name.equals("Three")) {
+        } else if (name == 3) {
             adviceIndex = 1;
-        } else if (name.equals("Four")) {
+        } else if (name == 4) {
             adviceIndex = 2;
-        } else if (name.equals("Five")) {
+        } else if (name == 5) {
             adviceIndex = 3;
-        } else if (name.equals("Six")) {
+        } else if (name == 6) {
             adviceIndex = 4;
-        } else if (name.equals("Seven")) {
+        } else if (name == 7) {
             adviceIndex = 5;
-        } else if (name.equals("Eight")) {
+        } else if (name == 8) {
             adviceIndex = 6;
-        } else if (name.equals("Nine")) {
+        } else if (name == 9) {
             adviceIndex = 7;
-        } else if (name.equals("Ten") || name.equals("Jack") || name.equals("Queen") || name.equals("King")) {
+        } else if (name == 10 || name == 11 || name == 12 || name == 13) {
             adviceIndex = 8;
         } else {
             adviceIndex = 9;
